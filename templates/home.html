@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron my-2 text-center">
+    <h1>WELCOME TO FLASK LIST</h1>
+    <P>This project was built by JAX as part of practise for buiulding web apps using flask</P>
+    <a href="{{ url_for('add') }}" class="btn btn-primary btn-sm">Add Todos</a>
+    <a href="{{ url_for('list') }}" class="btn btn-success btn-sm">View Todos</a>
+
+</div>
+{% endblock %}
