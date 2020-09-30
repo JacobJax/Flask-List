@@ -16,10 +16,13 @@ db = SQLAlchemy(app)
 class Todo(db.Model):
     __tablename__ = 'todos'
 
+    date = datetime.utcnow()
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30))
     description = db.Column(db.Text)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    last_edited = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, title, description):
         self.title = title
@@ -32,7 +35,8 @@ class Todo(db.Model):
         return {'id': self.id,
                 'title': self.title,
                 'description': self.description,
-                'post_date': self.date_posted}
+                'post_date': self.date_posted,
+                'last_edited': self.last_edited}
 
 
 
@@ -80,6 +84,7 @@ def edit(id):
         if form.validate_on_submit():
             todo.title = form.title.data
             todo.description = form.description.data
+            todo.last_edited = datetime.utcnow()
             db.session.commit()
             flash('Item has been updated succesfully')
             return redirect(url_for('list'))

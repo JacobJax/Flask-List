@@ -13,3 +13,6 @@
  #td-h:focus{
     text-decoration: none !important;
  }
+ .strike{
+    text-decoration: line-through;
+}

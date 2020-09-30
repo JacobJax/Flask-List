@@ -3,6 +3,7 @@
 <h1>Todos</h1>
 <hr>
 {% include 'includes/flash.html' %}
+{% if todo_list |length >= 1 %}
 {% for todo in todo_list %}
 <div class="accordion my-2" id="accordionExample">
 
@@ -10,8 +11,8 @@
     <div class="card-header" id="headingOne">
       <h2 class="mb-0">
         <button id="td-h" class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ todo['id'] }}" aria-expanded="true" aria-controls="collapse{{ todo['id'] }}">
-          <h4><small>Task Title: </small> {{ todo['title'] }} </h4><hr>
-          <button class="btn btn-dark btn-sm" id="cpl-btn">Mark as complete</button>
+          <h4 id="task-t{{ todo['id'] }}"><small>Task Title: </small> {{ todo['title'] }} </h4><hr>
+          <button class="btn btn-dark btn-sm" id="cpl-btn-{{ todo['id'] }}">Mark as complete</button>
           <a href="/edit/{{ todo['id'] }}" class="btn btn-primary btn-sm">Edit</a>
           {% include 'includes/modal.html' %}
         </button>
@@ -23,7 +24,9 @@
         <h5>Description:</h5><hr>
           <p>{{ todo['description'] }}</p><br>
         <h5>Date created:</h5><hr>
-        <p>{{ todo['post_date'] }}</p>
+        <p>{{ todo['post_date'].strftime("%c") }}</p><br>
+        <h5>Last edited:</h5><hr>
+        <p>{{ todo['last_edited'].strftime("%c") }}</p>
       </div>
     </div>
   </div>
@@ -31,4 +34,7 @@
 </div>
 {% endfor %}
   <a href="{{ url_for('add') }}" class="btn btn-primary my-2">Add Todos</a>
+{% else %}
+{% include 'includes/none.html' %}
+{% endif %}
 {% endblock %}
