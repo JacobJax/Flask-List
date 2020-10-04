@@ -1,50 +1,68 @@
-from datetime import datetime
-from flask import Flask, render_template, url_for, redirect, flash
-from flask_sqlalchemy import SQLAlchemy
-from forms import AddForm
+from ListProject import db, app
+from ListProject.models import Todo, User
+from flask import render_template, url_for, redirect, flash, request
+from flask_login import login_user, logout_user, login_required
+from ListProject.forms import AddForm, RegistrationForm, LoginForm
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'mysecretkey'
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.sqlite"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-###############################
-#    DATABASE SECTION         #
-###############################
-
-class Todo(db.Model):
-    __tablename__ = 'todos'
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(30))
-    description = db.Column(db.Text)
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __init__(self, title, description):
-        self.title = title
-        self.description = description
-
-    def __repr__(self):
-        return self.id
-
-    def render_todo(self):
-        return {'id': self.id,
-                'title': self.title,
-                'description': self.description,
-                'post_date': self.date_posted}
-
-
-
-################################
-#        Routes                #
-################################
 
 @app.route('/')
 def index():
     return render_template('home.html')
 
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have logged out')
+    return redirect(url_for('index'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        try:
+            form.check_email(form.email)
+            form.check_username(form.username)
+            user = User(email=form.email.data,
+                        username=form.username.data,
+                        password=form.password.data)
+
+            db.session.add(user)
+            db.session.commit()
+
+        except:
+            print('name or email already taken')
+            return redirect(url_for('register'))
+
+        flash('Thank you for registering')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None and user.check_password(form.password.data):
+            login_user(user)
+            flash('log in successful')
+
+            next = request.args.get('next')
+            if next == None or next[0] == '/':
+                next = url_for('index')
+
+            return redirect(next)
+
+    return render_template('login.html', form=form)
+
+
 @app.route('/add/', methods=['GET','POST'])
+@login_required
 def add():
     form = AddForm()
     if form.validate_on_submit():
@@ -61,15 +79,19 @@ def add():
 
     return render_template('add.html', form=form)
 
-@app.route('/list')
-def list():
-    todos = Todo.query.all()
+
+@app.route('/list/<int:id>')
+@login_required
+def list(id):
+    user = User.query.filter_by(id=id)
+    todos = user.tasks
     todo_list = []
     for todo in todos:
         n_todo = todo.render_todo()
         todo_list.append(n_todo)
 
     return render_template('list.html', todo_list=todo_list)
+
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
@@ -88,6 +110,7 @@ def edit(id):
         form.description.data = todo.description
         return render_template('edit.html', form=form)
 
+
 @app.route('/delete/<int:id>')
 def delete(id):
     todo = Todo.query.get(id)
@@ -98,5 +121,7 @@ def delete(id):
     flash('item deleted successfully')
 
     return redirect(url_for('list'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
