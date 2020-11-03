@@ -5,7 +5,8 @@
 {% if todo_list |length >= 1 %}
   {% for todo in todo_list %}
     {% if current_user.id == todo['author'] %}
-        <div class="accordion my-2" id="accordionExample">
+    <div class="content-section text-center">
+      <div class="accordion my-2" id="accordionExample">
 
           <div class="card my-2">
             <div class="card-header" id="headingOne">
@@ -24,13 +25,14 @@
                 <h5>Description:</h5><hr>
                   <p>{{ todo['description'] }}</p><br>
                 <h5>Date created:</h5><hr>
-                <p>{{ todo['post_date'] }}</p>
+                <p>{{ todo['post_date'].strftime("%c") }}</p>
               </div>
             </div>
           </div>
 
         </div>
-    <a style="margin: auto;" href="/add" class="btn btn-primary my-2">Add Todos</a>
+        <a style="margin: auto;" href="/add" class="btn btn-primary my-2">Add Todos</a>
+    </div>
     {% endif %}
   {% endfor %}
 {% else %}
