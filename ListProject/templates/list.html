@@ -1,34 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Todos</h1>
+<h1 style="text-align: center;">Todos</h1>
 <hr>
-{% include 'includes/flash.html' %}
-{% for todo in todo_list %}
-<div class="accordion my-2" id="accordionExample">
+{% if todo_list |length >= 1 %}
+  {% for todo in todo_list %}
+    {% if current_user.id == todo['author'] %}
+        <div class="accordion my-2" id="accordionExample">
 
-  <div class="card my-2">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-        <button id="td-h" class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ todo['id'] }}" aria-expanded="true" aria-controls="collapse{{ todo['id'] }}">
-          <h4><small>Task Title: </small> {{ todo['title'] }} </h4><hr>
-          <button class="btn btn-dark btn-sm" id="cpl-btn">Mark as complete</button>
-          <a href="/edit/{{ todo['id'] }}" class="btn btn-primary btn-sm">Edit</a>
-          {% include 'includes/modal.html' %}
-        </button>
-      </h2>
-    </div>
-<!--collapseOne-->
-    <div id="collapse{{ todo['id'] }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">
-        <h5>Description:</h5><hr>
-          <p>{{ todo['description'] }}</p><br>
-        <h5>Date created:</h5><hr>
-        <p>{{ todo['post_date'] }}</p>
-      </div>
-    </div>
-  </div>
+          <div class="card my-2">
+            <div class="card-header" id="headingOne">
+              <h2 class="mb-0">
+                <button id="td-h" class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ todo['id'] }}" aria-expanded="true" aria-controls="collapse{{ todo['id'] }}">
+                  <h4><small>Task Title: </small> {{ todo['title'] }} </h4><hr>
+                  <button class="btn btn-dark btn-sm" id="cpl-btn">Mark as complete</button>
+                  <a href="/todo/{{ todo['id'] }}/edit" class="btn btn-primary btn-sm">Edit</a>
+                  {% include 'includes/modal.html' %}
+                </button>
+              </h2>
+            </div>
+        <!--collapseOne-->
+            <div id="collapse{{ todo['id'] }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
+                <h5>Description:</h5><hr>
+                  <p>{{ todo['description'] }}</p><br>
+                <h5>Date created:</h5><hr>
+                <p>{{ todo['post_date'] }}</p>
+              </div>
+            </div>
+          </div>
 
-</div>
-{% endfor %}
-  <a href="{{ url_for('add') }}" class="btn btn-primary my-2">Add Todos</a>
+        </div>
+    <a style="margin: auto;" href="/add" class="btn btn-primary my-2">Add Todos</a>
+    {% endif %}
+  {% endfor %}
+{% else %}
+  {% include 'includes/none.html' %}
+{% endif %}
+
 {% endblock %}

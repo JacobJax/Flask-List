@@ -17,13 +17,15 @@ class RegistrationForm(FlaskForm):
     pass_conf = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign up')
 
-    def check_email(self, field):
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('That email has already been registered')
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('That email has been taken. Choose another one')
 
-    def check_username(self, field):
-        if User.query.filter_by(username=field.data).first():
-            raise ValidationError('That username is already taken')
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('That username has been taken. Choose another one')
 
 
 class LoginForm(FlaskForm):

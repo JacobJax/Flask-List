@@ -33,9 +33,10 @@ class Todo(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    def __init__(self, title, description):
+    def __init__(self, title, description, user_id):
         self.title = title
         self.description = description
+        self.user_id = user_id
 
     def __repr__(self):
         return self.id
@@ -44,4 +45,5 @@ class Todo(db.Model):
         return {'id': self.id,
                 'title': self.title,
                 'description': self.description,
-                'post_date': self.date_posted,}
+                'post_date': self.date_posted,
+                'author': self.user_id}
