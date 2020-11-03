@@ -44,10 +44,11 @@ def login():
             login_user(user)
             flash('log in successful', 'success')
 
-            next = request.args.get('next')
-            if next == None or next[0] == '/':
-                next = url_for('index')
-                return redirect(next)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('index'))
+            # if next == None or next[0] == '/':
+            #     next = url_for('index')
+            #     return redirect(next)
         else:
             flash('Log in unsuccessful. Check email and password', 'danger')
 
@@ -62,21 +63,21 @@ def add():
         title = form.title.data
         desc = form.description.data
         
-        new_todo = Todo(title, desc, user_id=current_user)
+        new_todo = Todo(title, desc, user_id=current_user.id)
 
         db.session.add(new_todo)
         db.session.commit()
         
         flash('new item added successfully')
-        return redirect(url_for('list'))
+        return redirect(url_for('list', user_id=current_user.id))
 
     return render_template('add.html', form=form)
 
 
-@app.route('/list')
+@app.route('/list/<int:user_id>')
 @login_required
-def list():
-    user = current_user
+def list(user_id):
+    user = User.query.get_or_404(user_id)
     todos = user.tasks
     todo_list = []
     for todo in todos:
@@ -91,7 +92,7 @@ def edit(todo_id):
     form = AddForm()
     todo = Todo.query.get_or_404(todo_id)
 
-    if todo.user_id != current_user:
+    if todo.user_id != current_user.id:
         abort(403)
 
     if form.validate_on_submit():
@@ -99,7 +100,7 @@ def edit(todo_id):
         todo.description = form.description.data
         db.session.commit()
         flash('Item has been updated succesfully', 'success')
-        return redirect(url_for('list'))
+        return redirect(url_for('list', user_id=current_user.id))
     elif request.method == 'GET':
         form.title.data = todo.title
         form.description.data = todo.description
@@ -112,14 +113,14 @@ def edit(todo_id):
 def delete(todo_id):
     todo = Todo.query.get_or_404(todo_id)
 
-    if todo.user_id != current_user:
+    if todo.user_id != current_user.id:
         abort(403)
 
     db.session.delete(todo)
     db.session.commit()
     
     flash('item deleted successfully', 'success')
-    return redirect(url_for('list'))
+    return redirect(url_for('list', user_id=current_user.id))
 
 
 if __name__ == '__main__':
