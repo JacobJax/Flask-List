@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+ *{
+    font-family: 'Roboto Mono', monospace;
+ }
+*:hover{
+    text-decoration: none !important;
+ }
+*:focus{
+    text-decoration: none !important;
+ }
+
+ #accordionExample, .alert-success, #editForm, #loginForm, #regForm{
+    width: 60%;
+ }
+
+ #td-h:hover{
+    text-decoration: none !important;
+ }
+ #td-h:focus{
+    text-decoration: none !important;
+ }
+
+ #loginForm, #sign-form, #addForm, #accordionExample, #editForm{
+    width: 50%;
+    margin: 10px auto;
+}
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}

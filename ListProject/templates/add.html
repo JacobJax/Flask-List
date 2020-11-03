@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-2">
+    <div class="content-section my-2">
+    <form method="POST" id="addForm">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4"><h3>Add new todo item</h3></legend>
+             {{ form.hidden_tag() }}
+              <div class="form-group">
+                {{ form.title.label }}
+                {{ form.title(class="form-control") }}
+                <small class="form-text text-muted">title of the todo item</small>
+              </div>
+              <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(class="form-control") }}
+                <small class="form-text text-muted">description of the todo item</small>
+              </div>
+                {{ form.submit(class="btn btn-primary") }}
+        </fieldset>
+    </form>
+    </div>
+
+</div>
+{% endblock %}

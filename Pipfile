@@ -7,8 +7,12 @@ verify_ssl = true
 
 [packages]
 flask = "*"
-flask-wtf = "*"
+flask-wtf = {extras = ["email"], version = "*"}
 flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-login = "*"
+werkzeug = "*"
+email-validator = "*"
 
 [requires]
 python_version = "3.8"

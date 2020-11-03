@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+      <a class="navbar-brand" href="{{ url_for('index') }}">Flask List</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Home </a>
+          </li>
+        </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% if current_user.is_authenticated %}
+
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ current_user.username }}
+                  </button>
+                  <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                    <a href="{{ url_for('logout') }}" class="text-center" style="padding: 5px;">Log out</a>
+                  </div>
+                </div>
+                {% else %}
+                <li><a href="{{ url_for('register') }}" style="color: #fff;" class="mx-2"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}" style="color: #fff;" ><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            {% endif %}
+      </div>
+  </div>
+</nav>
