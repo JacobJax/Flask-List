@@ -20,8 +20,8 @@
     text-decoration: none !important;
  }
 
- #loginForm, #sign-form, #addForm, #accordionExample, #editForm{
-    width: 50%;
+ #loginForm, #sign-form, #addForm, #accordionExample, #editForm, #search-fm{
+    width: 60%;
     margin: 10px auto;
 }
 .content-section {
