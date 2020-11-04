@@ -13,8 +13,8 @@ class AddForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     email = StringField('Email: ', validators=[DataRequired(), Email()])
     username = StringField('Username: ', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    pass_conf = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password')])
+    password = PasswordField('Password:', validators=[DataRequired()])
+    pass_conf = PasswordField('Confirm password:', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign up')
 
     def validate_email(self, email):
@@ -30,5 +30,5 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField('Email: ', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password:', validators=[DataRequired()])
     submit = SubmitField('Login')

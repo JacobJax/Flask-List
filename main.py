@@ -68,7 +68,7 @@ def add():
         db.session.add(new_todo)
         db.session.commit()
 
-        flash('new item added successfully')
+        flash('new item added successfully', 'success')
         return redirect(url_for('list', user_id=current_user.id))
 
     return render_template('add.html', form=form)
@@ -122,6 +122,11 @@ def delete(todo_id):
     flash('item deleted successfully', 'success')
     return redirect(url_for('list', user_id=current_user.id))
 
+
+@app.route('/profile/<username>/delete')
+@login_required
+def profile(username):
+    return render_template('profile.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
