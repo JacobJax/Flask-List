@@ -123,10 +123,17 @@ def delete(todo_id):
     return redirect(url_for('list', user_id=current_user.id))
 
 
-@app.route('/profile/<username>/delete')
+@app.route('/profile/<username>')
 @login_required
 def profile(username):
-    return render_template('profile.html')
+    user = User.query.filter_by(username=username).first()
+    todos = user.tasks
+    todo_list = []
+    for todo in todos:
+        n_todo = todo.render_todo()
+        todo_list.append(n_todo)
+    return render_template('profile.html', todos=len(todo_list))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
