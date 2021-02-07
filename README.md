@@ -5,7 +5,7 @@
 Flask List is a Web app that helps in managing tasks/todos. It perfoms various **CRUD** functions like **adding** tasks, **editing** and **deleting** tasks.
 
 One has to create an account to perfom functions with the app.
-___
+
 
 ## Technologies
 * HTML
@@ -13,18 +13,18 @@ ___
 * Python Flask
 * SQLAlchemy
 * SQLite
-___
+
 
 ## Requirements
 1. Python
 1. Flask
-___
+
 
 ## Installation
 1. Run `git clone https://github.com/JacobJax/Flask-List.git`
 1. Run `pip install -r requirements.txt`
 1. Then you can now run `python main.py` to view the app on `localhost/5000`
-___
+
 
 ## Usage
 You can easily start using the app by clicking **Add Todos**
@@ -32,9 +32,11 @@ You can easily start using the app by clicking **Add Todos**
 
 ### **Creating account**
 If you are not logged in, you will be directed to the log in page
+
 ![log in page](illustrations/log_in.PNG)
 
 If you don't have an account click on the _**here**_ prompt to create a new account.
+
 ![sign up page](illustrations/sign_up.PNG) 
 Enter your details and click _**Sign up**_ to create an account.
 
@@ -48,6 +50,7 @@ Enter your details to log in
 
 ### **Adding tasks**
 Click on _**Add Todos**_
+
 ![add tasks](illustrations/add_page.PNG)
 
 Enter task details and click _**Add Todo**_ to add the task
@@ -59,8 +62,11 @@ You can view the task description by clicking on the task
 ![Item description](illustrations/expanded_item.PNG)
 
 ### **Editing tasks**
-Click on _**Edit**_, on the edit page, enter new task details and click _**Edit todo**_
+Click on _**Edit**_, on the edit page, enter new task details
+
 ![Edit page](illustrations/edit_page.PNG)
+
+Click _**Edit todo**_
 
 ![Edited task](illustrations/edited_page.PNG)
 
@@ -80,4 +86,5 @@ Click on the dropdown with your username.
 ![log out](illustrations/logout.PNG)
 
 Click _**Log out**_ to log out
+
 ![Logged out](illustrations/logeed_out.PNG)
