@@ -38,6 +38,7 @@ If you are not logged in, you will be directed to the log in page
 If you don't have an account click on the _**here**_ prompt to create a new account.
 
 ![sign up page](illustrations/sign_up.PNG) 
+
 Enter your details and click _**Sign up**_ to create an account.
 
 Clicking _**Sign up**_ will redirect you to the log in page
